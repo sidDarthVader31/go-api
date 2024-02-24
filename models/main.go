@@ -1,15 +1,22 @@
 package models
 
-import "github.com/go-pg/pg/v10"
+import (
+	"fmt"
 
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+)
 
-
-func ConnectDatabase() *pg.DB{
-  db := pg.Connect(&pg.Options{
-    Addr:     ":5432",
-    User:     "user",
-    Password: "pass",
-    Database: "db_name",
-  })
-  return db
+func ConnectDb()(*gorm.DB, error){
+  db, err := gorm.Open(postgres.New(postgres.Config{
+  DSN: "host=localhost user=gorm password=gorm dbname=gorm port=9920 ",
+  PreferSimpleProtocol: true,
+}), &gorm.Config{})
+  if err != nil{
+    fmt.Println("error while connecting to db")
+    return nil, err
+  }
+  return db, nil
 }
+
+
