@@ -34,6 +34,6 @@ func initEnv(){
 
 
 func getPort() string{
-  return  viper.Get("PORT").(string)
+  return  fmt.Sprintf(":%s", viper.Get("PORT").(string))
 }
 
