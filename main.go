@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"go-api/routes"
-	"net/http"
+	"go-api/models"
+	// "go-api/routes"
+	// "net/http"
 
 	"github.com/spf13/viper"
 )
@@ -13,13 +14,27 @@ func main(){
 
   //initialize env files
   initEnv()
-  router := routes.InitRouter();
+  // router := routes.InitRouter();
 
   //start http server
-  http.ListenAndServe(getPort(), router)
+  // http.ListenAndServe(getPort(), router)
 
   fmt.Println("server started successfully at port", getPort())
 
+  //initialize db 
+
+  db, _ := models.ConnectDb()
+  //create user 
+
+  newUser := models.User{
+    Name :"sid1",
+    Email : "siddharthbisht3108@gmail.com",
+    Password: "qwerty",
+    PhoneNumber: "8218468189",
+    IsActive: true,
+  }
+   data,_ := newUser.CreateAndGetUser(db)
+  fmt.Println("return data", data)
 }
 
 func initEnv(){
