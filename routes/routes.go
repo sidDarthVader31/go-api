@@ -1,11 +1,18 @@
 package routes
 
-import "github.com/gorilla/mux"
+import (
+	"go-api/users"
+
+	"github.com/gorilla/mux"
+)
 
 
 func InitRouter() *mux.Router{
   r := mux.NewRouter()
   r.Use(mux.CORSMethodMiddleware(r))
 
-  return r;
+  //define routes 
+  r.HandleFunc("/users",users.CreateUserHandler).Methods("POST")
+
+  return r
 }
