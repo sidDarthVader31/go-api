@@ -2,12 +2,12 @@ package models
 
 
 type User struct{
-  Id uint
-  Name string
-  Email string
-  Password string
-  PhoneNumber string
-  IsActive bool
+  Id uint               `json:"id"`
+  Name string           `json:"name"`
+  Email string          `json:"email"`
+  Password string       `json:"Password"`
+  PhoneNumber string    `json:"PhoneNumber"`
+  IsActive bool         `json:"isActive"`
 }
 
 
