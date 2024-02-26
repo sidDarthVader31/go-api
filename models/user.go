@@ -14,6 +14,7 @@ type User struct{
 
 
 func (u *User) CreateAndGetUser() (*User, error){
+  u.IsActive = true
   result :=database.Create(u)
   if result.Error != nil{
     return nil, result.Error

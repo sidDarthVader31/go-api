@@ -9,21 +9,12 @@ import (
 )
 
 func CreateUserHandler(w http.ResponseWriter, r *http.Request, ){
-  fmt.Println("w:", w)
-  fmt.Println("*w:", &w)
   var nu models.User
   err := json.NewDecoder(r.Body).Decode(&nu)
-  nu.IsActive = true
   if err != nil{
-    fmt.Println("invalid data")
     common.SendResponse[string](http.StatusBadRequest, " Invalid input",fmt.Sprintf("error:%v", err), &w)
   }
-  err1 := createUserService(&nu)
-  if err1 != nil{
-    common.SendResponse[string](http.StatusInternalServerError, "Something went wrong",fmt.Sprintf("error:%v", err), &w)
-  }
+  status, message, _ := CreateUserService(&nu)
   //send ok response 
-
-  fmt.Println("new user:", nu)
-  common.SendResponse[models.User](http.StatusOK, "Created", nu, &w)
+  common.SendResponse[models.User](status, message, nu, &w)
 } 
