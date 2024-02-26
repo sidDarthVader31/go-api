@@ -12,7 +12,7 @@ func InitRouter() *mux.Router{
   r.Use(mux.CORSMethodMiddleware(r))
 
   //define routes 
-  r.HandleFunc("/users",users.CreateUserHandler).Methods("POST")
+  r.HandleFunc("/users/signup",users.CreateUserHandler).Methods("POST")
 
   return r
 }
