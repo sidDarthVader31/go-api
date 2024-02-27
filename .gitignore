@@ -23,4 +23,4 @@ go.work
 *.vscode
 *.ds_store
 *.nvim
-*.env
+#*.env   -> removing env from gitignore 
