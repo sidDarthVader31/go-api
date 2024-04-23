@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+     environment {
+        PATH = "/usr/local/bin:$PATH"
+    }
+    stages {
+        stage('Print PATH') {
+            steps {
+                sh 'echo $PATH'
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    // // Clean workspace
+                     deleteDir()
+                    // // Checkout the source code
+                     git url: 'https://github.com/sidDarthVader31/go-api.git', 
+                         branch: 'main'
+                    // // Build the Go application
+                    // sh 'docker-compose build'
+                    
+                    // sh 'docker-compose --version'
+                }
+            }
+        }
+        stage('Run'){
+            steps {
+                sh 'docker-compose up -d '
+            }
+        }
+        // Add other stages as needed
+    }
+}
+
