@@ -1,0 +1,6 @@
+#deployment and service for postgres DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+
