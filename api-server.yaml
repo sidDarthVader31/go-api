@@ -1,0 +1,34 @@
+#deployment file for our go-api server 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-api-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: go-api 
+  template:
+    metadata:
+      labels:
+        app: go-api
+    spec:
+      containers:
+      - name: go-api-backend 
+        image: go-api-backend:latest
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-api-service
+spec:
+  selector:
+    app.kubernetes.io/name: go-api
+  ports:
+    - protocol: TCP
+      port: 8080 # port that is exposed 
+      targetPort: 3000 #the port where r
