@@ -20,6 +20,28 @@ spec:
         image: go-api-backend:latest
         ports:
         - containerPort: 3000
+        env:
+          name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: USER
+          name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: PASSWORD
+          name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: DB_NAME
+          name: POSTGRES_DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: DB_PORT
+-
 ---
 apiVersion: v1
 kind: Service
