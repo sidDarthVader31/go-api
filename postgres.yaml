@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: postgres-deployment
   labels:
-    app: nginx
+    app: postgres
 spec:
   replicas: 1
   selector:
@@ -21,26 +21,21 @@ spec:
         ports:
         - containerPort: 5432
         env:
-          name: POSTGRES_USER
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: USER
-          name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: PASSWORD
-          name: POSTGRES_DB
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: DB_NAME
-          name: POSTGRES_DB_PORT
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: DB_PORT
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: USER
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: PASSWORD
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: DB_NAME
 ---
 apiVersion: v1
 kind: Service
@@ -48,7 +43,7 @@ metadata:
   name: postgres-service
 spec:
   selector:
-    app.kubernetes.io/name: postgres
+    name: postgres
   ports:
     - protocol: TCP
       port: 8080 # port that is exposed 

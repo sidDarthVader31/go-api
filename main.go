@@ -20,7 +20,7 @@ func main(){
   _, err := models.ConnectDb()
 
   if err!= nil{
-    fmt.Println("issue while connecting to the database, shutting down")
+    fmt.Println("issue while connecting to the database, shutting down", err)
     os.Exit(1)
   }
 
