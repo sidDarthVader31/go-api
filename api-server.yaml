@@ -1,0 +1,64 @@
+#deployment file for our go-api server 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-api-deployment
+  labels:
+    app: go-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-api 
+  template:
+    metadata:
+      labels:
+        app: go-api
+    spec:
+      containers:
+      - name: go-api
+        image: go-server:1.0
+        ports:
+        - containerPort: 3000
+        env:
+          - name: HOST
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: postgres-url
+          - name: USER
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: USER
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: PASSWORD
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: DB_NAME
+          - name: DB_PORT
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: DB_PORT
+          - name: PORT
+            value: "3000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-api-service
+spec:
+  type: NodePort
+  selector:
+    app: go-api
+  ports:
+    - protocol: TCP
+      port: 3000 # port that is exposed within the cluster 
+      targetPort: 3000 #the port in the go app container 
+      nodePort: 31000 #for external access

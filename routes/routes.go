@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"go-api/users"
 
 	"github.com/gorilla/mux"
@@ -8,6 +9,7 @@ import (
 
 
 func InitRouter() *mux.Router{
+  fmt.Println("initializing router")
   r := mux.NewRouter()
   r.Use(mux.CORSMethodMiddleware(r))
 
