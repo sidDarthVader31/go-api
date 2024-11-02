@@ -17,25 +17,35 @@ spec:
     spec:
       containers:
       - name: postgresdb 
-        image: postgres:latest
+        image: postgres:17.0
         ports:
         - containerPort: 5432
         env:
+          - name: POSTGRES_LISTEN_ADDRESSES
+            value: "*"
+          - name: POSTGRES_HOST_AUTH_METHOD
+            value: "trust"
           - name: POSTGRES_USER
-            valueFrom:
-              secretKeyRef:
-                name: postgres-secret
-                key: USER
+            value: sid
           - name: POSTGRES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: postgres-secret
-                key: PASSWORD
+            value: postgresPW
           - name: POSTGRES_DB
-            valueFrom:
-              secretKeyRef:
-                name: postgres-secret
-                key: DB_NAME
+            value: sample-db
+        #   - name: POSTGRES_USER
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: postgres-secret
+        #         key: USER
+        #   - name: POSTGRES_PASSWORD
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: postgres-secret
+        #         key: PASSWORD
+        #   - name: POSTGRES_DB
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: postgres-secret
+        #         key: DB_NAME
 ---
 apiVersion: v1
 kind: Service
@@ -43,8 +53,8 @@ metadata:
   name: postgres-service
 spec:
   selector:
-    name: postgres
+    app: postgres
   ports:
     - protocol: TCP
-      port: 8080 # port that is exposed 
+      port: 5432 # port that is exposed 
       targetPort: 5432 #the port where request is to be forwarded

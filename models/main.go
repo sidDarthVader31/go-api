@@ -3,32 +3,25 @@ package models
 import (
 	"fmt"
 	"os"
-
-	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 var database *gorm.DB
 func ConnectDb()(*gorm.DB, error){
-  fmt.Println("database host:", viper.Get("HOST"))
-
-connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-    os.Getenv("HOST"),    // "postgres-service"
-    os.Getenv("DB_PORT"),    // "5432"
-    os.Getenv("USER"),
-    os.Getenv("PASSWORD"),
-    os.Getenv("DB_NAME"))
-  fmt.Println("conn str:", connStr)
+  host := os.Getenv("HOST")
+  port := os.Getenv("DB_PORT")
+  user := os.Getenv("USER")
+  password := os.Getenv("PASSWORD")
+  dbname := os.Getenv("DB_NAME")
+  fmt.Printf("host=%s port=%s user=%s password=%s dbname=%s\n", host, port, user, password, dbname)
   db, err := gorm.Open(postgres.New(postgres.Config{ 
-  DSN:  connStr,
+  DSN:  fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s\n", host, port, user, password, dbname),
   PreferSimpleProtocol: true,
-}), &gorm.Config{})
+  }), &gorm.Config{})
   if err != nil{
     fmt.Println("error while connecting to db", err)
     return nil, err
   }
-  fmt.Println("db value:", db)
-  fmt.Println("database value:", database)
   database = db
   return db, nil
 }
