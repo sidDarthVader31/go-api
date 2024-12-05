@@ -46,6 +46,7 @@ spec:
                secretKeyRef:
                  name: postgres-secret
                  key: DB_NAME
+
 ---
 apiVersion: v1
 kind: Service
